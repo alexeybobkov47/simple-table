@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+
+  db:
+    build: ./database/
+    restart: always
+    container_name: database
+    ports:
+      - 5432:5432
+
+  web_table_server:
+    build: ./services/table/
+    restart: always
+    container_name: web_table_server
+    depends_on: ['db']
+    volumes:
+      - ./services/table/web:/app/main/web
+    ports:
+      - 8082:1323

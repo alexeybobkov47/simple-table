@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>11AAS Table</title>
+    <link rel="stylesheet" href="js-css/bootstrap-4.6.0-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="js-css/fontawesome-free-5.15.3-web/css/all.css">
+    <link rel="stylesheet" href="js-css/bootstrap-table-dist/bootstrap-table.min.css">
+    <script src="js-css/jquery3.6.min.js"></script>
+    <script src="js-css/bootstrap-4.6.0-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js-css/bootstrap-table-dist/bootstrap-table.min.js"></script>
+    <script src="js-css/bootstrap-table-dist/extensions/filter-control/bootstrap-table-filter-control.min.js"></script>
+    <link rel="stylesheet" href="js-css/index.css">
+    <div id="for-alerts"></div>
+</head>
+
+<body>
+    <div id="toolbar">
+        <div id="buttons-toolbar">
+            <button id="button-add-row" type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#row-table">Новая запись</button>
+        </div>
+    </div>
+    <table id="table" data-ajax="ajaxRequest" data-toggle="table" data-search="true" data-sort-name="username"
+        data-show-refresh="true" data-toolbar="#toolbar" data-filter-control="true" data-show-search-clear-button="true"
+        data-detail-view="true" data-detail-view-icon="true" data-detail-formatter="detailFormatter">
+        <thead>
+            <tr>
+                <!-- <th data-width="50" data-formatter="connect_button" data-align="center" ></th> -->
+                <th data-width="300" data-sortable="true" data-filter-control="input" data-field="username">ФИО\Название
+                </th>
+                <th data-width="150" data-align="center" data-filter-control="input" data-sortable="true"
+                    data-field="pc_name">Имя компьютера</th>
+                <th data-width="100" data-align="center" data-filter-control="select" data-sortable="true"
+                    data-field="cabinet">Кабинет</th>
+                <th data-width="100" data-align="center" data-filter-control="input" data-field="phone_number">Тел.
+                    номер</th>
+                <th data-width="100" data-align="center" data-filter-control="select" data-sortable="true"
+                    data-field="user_group">Группа</th>
+                <th data-field="discription">Описание</th>
+                <th data-width="50" data-formatter="dropdown_row" data-align="center">Доп.</th>
+
+            </tr>
+        </thead>
+    </table>
+    <div id="countRows" class="btn"></div>
+
+    <!-- Modal form for row-->
+    <div class="modal fade" id="row-table" role="dialog" aria-labelledby="row-table-label">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">Создать/Изменить</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="for-alerts"></div>
+                <form id="form-row" role="form" class="needs-validation was-validated" novalidate>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="username" class="col-form-label">ФИО:</label>
+                            <input type="text" id="username" class="form-control" name="username" required
+                                minlength='2'>
+                            <span class="error" aria-live="polite"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="pc_name" class="col-form-label">Имя компьютера:</label>
+                            <input type="text" id="pc_name" class="form-control" name="pc_name" required>
+                            <span class="error" aria-live="polite"></span>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="user_group" class="col-form-label">Группа:</label>
+                            <input type="text" id="user_group" class="form-control" name="user_group" required>
+                            <!-- <select class="form-control" id="exampleFormControlSelect1">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+      <option>4</option>
+      <option>5</option>
+    </select> -->
+                        </div>
+                        <div class="form-group">
+                            <label for="phone_number" class="col-form-label">Номер телефона:</label>
+                            <input type="text" id="phone_number" class="form-control" name="phone_number">
+                        </div>
+                        <div class="form-group">
+                            <label for="cabinet" class="col-form-label">Кабинет:</label>
+                            <input type="text" id="cabinet" class="form-control" name="cabinet" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="discription" class="col-form-label">Описание:</label>
+                            <textarea class="form-control" id="discription" name="discription"></textarea>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button id="button-update-row-submit" type="button"
+                                class="btn btn-primary">Изменить</button>
+                            <button id="button-add-row-submit" type="button" class="btn btn-primary">Создать</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                        </div>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+    </div>
+    <!-- Modal delete confirm -->
+    <div class="modal fade" id="delete-confirm" role="dialog" aria-labelledby="delete-confirm-label">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Подтверждение удаления</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+                    <button id="button-delete-row" type="button" class="btn btn-danger">Удалить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="js-css/table.js"></script>
+</body>
+
+
+</html>
+
+<!-- curl -i -X POST -H 'Content-Type: application/json' -d '{"username": "11111", "pc_name": "22222", "user_group": "3333", "phone_number": "44444", "cabinet": "5555", "discription": "discription"}' localhost:1323/users -->
