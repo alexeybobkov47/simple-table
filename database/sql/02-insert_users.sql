@@ -1,4 +1,0 @@
--- INSERT INTO users (username, pc_name, user_group, cabinet, phone_number, birthdate, created_at, modified_at)
--- VALUES
---     ('7454', '567567', '567', '69', '345', '1989-04-03', NOW(), NOW()),
---     ('97678', '523453', '4234', '77', '288', '1989-08-04', NOW(), NOW());

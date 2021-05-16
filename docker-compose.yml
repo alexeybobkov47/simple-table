@@ -3,11 +3,16 @@ version: '2'
 services:
 
   db:
-    build: ./database/
+    image: "postgres:13.2"
     restart: always
     container_name: database
     ports:
       - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: simpleTable
+      PG_DATA: /var/lib/pgdata
 
   web_table_server:
     build: ./services/table/
@@ -18,3 +23,12 @@ services:
       - ./services/table/web:/app/main/web
     ports:
       - 8082:1323
+
+  migrate:
+    image: "migrate/migrate:v4.14.1"
+    depends_on: ['db']
+    restart: on-failure
+    container_name: migrate_simpleTable
+    volumes:
+      - ./database/migrations:/migrations
+    entrypoint: migrate -database postgres://postgres:mypassword@db:5432/simpleTable?sslmode=disable -path ./migrations/ up
